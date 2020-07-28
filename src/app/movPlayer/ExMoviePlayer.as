@@ -31,7 +31,7 @@ package app.movPlayer {
         }
 
         public function resume():void {
-            throw new Error("Method not implemented.");
+            netStream.resume();
         }
 
         public function stop():void {
@@ -55,7 +55,7 @@ package app.movPlayer {
         }
 
         public function pause():void {
-            throw new Error("Method not implemented.");
+            netStream.pause();
         }
 
         public function set URL(value:String):void {
