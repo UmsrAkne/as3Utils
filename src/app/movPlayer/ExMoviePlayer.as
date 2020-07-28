@@ -39,15 +39,16 @@ package app.movPlayer {
         }
 
         public function load():void {
-            throw new Error("Method not implemented.");
+            netStream.play(url);
+            netStream.pause();
         }
 
         public function get Position():Number {
-            throw new Error("Method not implemented.");
+            return netStream.time;
         }
 
         public function set Position(pos:Number):void {
-            throw new Error("Method not implemented.");
+            netStream.seek(pos);
         }
 
         public function loadAndPlay():void {
