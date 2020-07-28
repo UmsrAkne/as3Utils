@@ -11,6 +11,7 @@ package app.movPlayer {
         private var video:Video;
         private var netStream:NetStream;
         private var url:String;
+        private var duration:Number;
 
         public function ExMoviePlayer(w:int = 320, h:int = 240) {
             video = new Video(w, h);
@@ -18,7 +19,8 @@ package app.movPlayer {
             var nc:NetConnection = new NetConnection();
             nc.connect(null);
             netStream = new NetStream(nc);
-            netStream.client = {onMetaData: function():void {
+            netStream.client = {onMetaData: function(videoInfo:Object):void {
+                duration = videoInfo.duration;
             }};
 
             video.attachNetStream(netStream);
@@ -66,6 +68,10 @@ package app.movPlayer {
 
         public function get URL():String {
             return url;
+        }
+
+        public function get Duration():Number {
+            return duration;
         }
     }
 }

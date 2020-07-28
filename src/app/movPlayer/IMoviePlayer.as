@@ -17,5 +17,7 @@ package app.movPlayer {
 
         function get Position():Number;
         function set Position(pos:Number):void;
+
+        function get Duration():Number;
     }
 }
