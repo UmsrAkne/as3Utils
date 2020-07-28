@@ -5,6 +5,7 @@ package app.movPlayer {
     import flash.net.NetConnection;
     import flash.display.Sprite;
     import flash.filesystem.File;
+    import flash.events.Event;
 
     public class ExMoviePlayer extends Sprite implements IMoviePlayer {
 
@@ -12,6 +13,7 @@ package app.movPlayer {
         private var netStream:NetStream;
         private var url:String;
         private var duration:Number;
+        private var beforeEndEvendDispatched:Boolean = false;
 
         public function ExMoviePlayer(w:int = 320, h:int = 240) {
             video = new Video(w, h);
@@ -24,10 +26,12 @@ package app.movPlayer {
             }};
 
             video.attachNetStream(netStream);
+            addEventListener(Event.ENTER_FRAME, dispatchBeforeEndEvent);
         }
 
         public function play():void {
             netStream.play(url);
+            beforeEndEvendDispatched = false;
         }
 
         public function resume():void {
@@ -73,6 +77,15 @@ package app.movPlayer {
 
         public function get Duration():Number {
             return duration;
+        }
+
+        private function dispatchBeforeEndEvent(event:Event):void {
+            if (!beforeEndEvendDispatched) {
+                if (Position >= duration - 0.05) {
+                    dispatchEvent(new Event(MovieEvent.BEFORE_END));
+                    beforeEndEvendDispatched = true;
+                }
+            }
         }
     }
 }
