@@ -30,6 +30,7 @@ package app.movPlayer {
         }
 
         public function play():void {
+            netStream.close();
             netStream.play(url);
             beforeEndEvendDispatched = false;
         }
