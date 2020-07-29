@@ -7,22 +7,27 @@ package app.movPlayer {
     public class MoviePlayerContainer extends Sprite {
 
         private var urls:Vector.<String>;
+        private var currentMovieIndex:int = 0;
+        private var firstMoviewPlayed:Boolean = false;
+        private var cursorDirection:int = 1;
 
         public function MoviePlayerContainer(playerA:IMoviePlayer, playerB:IMoviePlayer) {
             addChild(DisplayObject(playerB));
             addChild(DisplayObject(playerA));
         }
 
-        public function setURLs(urlA:String, urlB:String, urlC:String):void {
-            urls = new Vector.<String>();
-            urls.push(urlA, urlB, urlC);
+        public function setURLs(URLs:Vector.<String>):void {
+            urls = URLs;
+            currentMovieIndex = 0;
+            firstMoviewPlayed = false;
         }
 
         public function play():void {
-            frontPlayer.URL = urls[0];
+            frontPlayer.URL = urls[currentMovieIndex];
             frontPlayer.play();
             DisplayObject(frontPlayer).alpha = 0;
             reattachBeforeEndEvent(frontPlayer);
+            firstMoviewPlayed = true;
         }
 
         private function get frontPlayer():IMoviePlayer {
@@ -42,12 +47,35 @@ package app.movPlayer {
         }
 
         private function nextPlay(e:Event):void {
+            currentMovieIndex = getNextIndex();
             var bp:IMoviePlayer = backPlayer;
-            bp.URL = urls[1];
+            bp.URL = urls[currentMovieIndex];
             bp.play()
             reattachBeforeEndEvent(bp);
             DisplayObject(bp).alpha = 0;
             addChild(DisplayObject(bp));
+
+            trace(currentMovieIndex);
+        }
+
+        /**
+         * 次に再生すべき動画のインデックスを取得します
+         */
+        private function getNextIndex():int {
+            if (urls.length == 1 || !firstMoviewPlayed) {
+                return 0;
+            }
+
+            if (urls.length == 2) {
+                return 1;
+            }
+
+            var tempIndex:int = currentMovieIndex + cursorDirection;
+            if (tempIndex >= urls.length || tempIndex <= 0) {
+                cursorDirection *= -1;
+            }
+
+            return currentMovieIndex + cursorDirection;
         }
     }
 }
