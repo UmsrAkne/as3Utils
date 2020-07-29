@@ -14,6 +14,7 @@ package app.movPlayer {
         private var url:String;
         private var duration:Number;
         private var beforeEndEvendDispatched:Boolean = false;
+        public var alphaIncrement:Number = 0.2;
 
         public function ExMoviePlayer(w:int = 320, h:int = 240) {
             video = new Video(w, h);
@@ -26,7 +27,7 @@ package app.movPlayer {
             }};
 
             video.attachNetStream(netStream);
-            addEventListener(Event.ENTER_FRAME, dispatchBeforeEndEvent);
+            addEventListener(Event.ENTER_FRAME, enterFrameEventHandler);
         }
 
         public function play():void {
@@ -80,7 +81,11 @@ package app.movPlayer {
             return duration;
         }
 
-        private function dispatchBeforeEndEvent(event:Event):void {
+        private function enterFrameEventHandler(event:Event):void {
+            if (this.alpha <= 1) {
+                alpha += alphaIncrement;
+            }
+
             if (!beforeEndEvendDispatched) {
                 if (Position >= duration - 0.05) {
                     dispatchEvent(new Event(MovieEvent.BEFORE_END));

@@ -21,6 +21,7 @@ package app.movPlayer {
         public function play():void {
             frontPlayer.URL = urls[0];
             frontPlayer.play();
+            DisplayObject(frontPlayer).alpha = 0;
             reattachBeforeEndEvent(frontPlayer);
         }
 
@@ -45,6 +46,7 @@ package app.movPlayer {
             bp.URL = urls[1];
             bp.play()
             reattachBeforeEndEvent(bp);
+            DisplayObject(bp).alpha = 0;
             addChild(DisplayObject(bp));
         }
     }
