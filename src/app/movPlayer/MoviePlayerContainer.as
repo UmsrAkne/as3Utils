@@ -54,8 +54,6 @@ package app.movPlayer {
             reattachBeforeEndEvent(bp);
             DisplayObject(bp).alpha = 0;
             addChild(DisplayObject(bp));
-
-            trace(currentMovieIndex);
         }
 
         /**
