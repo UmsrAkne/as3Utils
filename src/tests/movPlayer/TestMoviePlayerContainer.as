@@ -3,6 +3,9 @@ package tests.movPlayer {
     import app.movPlayer.MoviePlayerContainer;
     import app.movPlayer.ExMoviePlayer;
     import tests.Assert;
+    import app.movPlayer.MovieEvent;
+    import flash.events.Event;
+    import flash.display.DisplayObject;
 
     public class TestMoviePlayerContainer {
         public function TestMoviePlayerContainer() {
@@ -85,25 +88,98 @@ package tests.movPlayer {
                 }
             }
 
+            Assert.isFalse(mpc.switching());
             mpc.play();
 
-            forwardLoop(1);
+            forwardLoop(98);
+            Assert.isTrue(mpc.switching());
+            p2.addEventListener(MovieEvent.APPEARÏNG, appearing);
+            var appearingFlag:Boolean = false;
+            forwardLoop(10);
+
+            function appearing(e:Event):void {
+                appearingFlag = true;
+            }
+
+            Assert.isTrue(appearingFlag);
+
+            forwardLoop(90);
+            Assert.isTrue(mpc.switching());
+            Assert.areEqual(mpc.getChildIndex(p1), 1); // この時点まではp1が先頭
+
+            // urls を挿入することにより、beforeEndEvent が飛んでバックの p2 に url がセットされる
             mpc.setURLs(new <String>["address4", "address5", "address6"]);
-            forwardLoop(1);
-            mpc.setURLs(new <String>["address7", "address8", "address9"]);
-            forwardLoop(1);
-            mpc.setURLs(new <String>["address10", "address11", "address12"]);
-            forwardLoop(1);
-            mpc.setURLs(new <String>["address13", "address14", "address15"]);
-            forwardLoop(1);
-            mpc.setURLs(new <String>["address16", "address17", "address18"]);
+            forwardLoop(30);
 
-            Assert.areEqual(p1.currentPlayURL, "address1");
-            Assert.areEqual(mpc.getChildIndex(p1), 1);
-            forwardLoop(100);
-
-            Assert.areEqual(p2.currentPlayURL, "address16"); // 最後に入力したベクターの先頭の要素
+            // switching = true の状態で url をセット 1.5 sec 時間を送った結果、
+            // p2 が最前面、完全不透明状態で address4 を再生している状態になる。
+            Assert.isTrue(p2.alpha >= 1);
             Assert.areEqual(mpc.getChildIndex(p2), 1);
+            Assert.areEqual(p2.currentPlayURL, "address4");
+
+            forwardLoop(100);
+            Assert.isTrue(p1.alpha >= 1);
+            Assert.areEqual(mpc.getChildIndex(p1), 1);
+            Assert.areEqual(p1.currentPlayURL, "address5");
+
+            forwardLoop(100)
+            Assert.isTrue(p2.alpha >= 1);
+            Assert.areEqual(mpc.getChildIndex(p2), 1);
+            Assert.areEqual(p2.currentPlayURL, "address6");
+
+            // ここからもう少し動画挿入のパターンを増やして確認する
+            // 再生中、前面にあるプレイヤーのアルファが１以上で尚且想定通りのURLが返ってくればOKというチェックを繰り返す。
+            // 動画入れ替え中にセットを行うのが一番危なそうなので、そこを中心にテストする。
+            p1 = new DummyPlayer();
+            p2 = new DummyPlayer();
+            mpc = new MoviePlayerContainer(p1, p2);
+            mpc.setURLs(new <String>["address7", "address8", "address9"]);
+            mpc.play();
+            forwardLoop(97);
+
+            // 動画の入れ替わり中に立て続けに動画を入力する
+            Assert.isTrue(mpc.switching());
+            forwardLoop(1)
+            mpc.setURLs(new <String>["address7", "address8", "address9"]);
+            forwardLoop(1)
+            mpc.setURLs(new <String>["address10", "address11", "address12"]);
+            mpc.setURLs(new <String>["address13", "address14", "address15"]);
+
+            forwardLoop(1)
+            mpc.setURLs(new <String>["address16", "address17", "address18"]);
+            forwardLoop(1)
+            mpc.setURLs(new <String>["address19", "address20", "address21"]);
+            forwardLoop(20);
+
+            // 連続での挿入が済んだら、その後問題なく再生され続けるかチェックする
+            Assert.isTrue(p2.alpha >= 1);
+            Assert.areEqual(mpc.getChildIndex(p2), 1);
+            Assert.areEqual(p2.currentPlayURL, "address19");
+
+            forwardLoop(100);
+            Assert.isTrue(p1.alpha >= 1);
+            Assert.areEqual(mpc.getChildIndex(p1), 1);
+            Assert.areEqual(p1.currentPlayURL, "address20");
+
+            forwardLoop(100);
+            Assert.isTrue(p2.alpha >= 1);
+            Assert.areEqual(mpc.getChildIndex(p2), 1);
+            Assert.areEqual(p2.currentPlayURL, "address21");
+
+            // 動画の切り替え中ではないタイミングで連続で挿入しても問題がないかチェック
+            Assert.isFalse(mpc.switching());
+            mpc.setURLs(new <String>["address22", "address23", "address24"]);
+            mpc.setURLs(new <String>["address22", "address23", "address24"]);
+            mpc.setURLs(new <String>["address25", "address26", "address27"]);
+            forwardLoop(20);
+            Assert.isTrue(p2.alpha >= 1);
+            Assert.areEqual(mpc.getChildIndex(p2), 1);
+            Assert.areEqual(p2.currentPlayURL, "address25");
+
+            forwardLoop(100);
+            Assert.isTrue(p1.alpha >= 1);
+            Assert.areEqual(mpc.getChildIndex(p1), 1);
+            Assert.areEqual(p1.currentPlayURL, "address26");
         }
     }
 }

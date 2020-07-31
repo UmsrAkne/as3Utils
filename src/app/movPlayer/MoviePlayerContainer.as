@@ -10,6 +10,7 @@ package app.movPlayer {
         private var currentMovieIndex:int = 0;
         private var firstMoviewPlayed:Boolean = false;
         private var cursorDirection:int = 1;
+        private var urlsBuffer:Vector.<String> = new Vector.<String>;
 
         public function MoviePlayerContainer(playerA:IMoviePlayer, playerB:IMoviePlayer) {
             addChild(DisplayObject(playerB));
@@ -17,10 +18,17 @@ package app.movPlayer {
         }
 
         public function setURLs(URLs:Vector.<String>):void {
-            urls = URLs;
-            currentMovieIndex = 0;
-            firstMoviewPlayed = false;
+            if (switching()) {
+                urlsBuffer = URLs;
+                frontPlayer.addEventListener(MovieEvent.APPEARÏNG, frontPlayerAppearing);
+            } else {
+                urls = URLs;
+                currentMovieIndex = 0;
+                firstMoviewPlayed = false;
+                frontPlayer.dispatchEvent(new Event(MovieEvent.BEFORE_END));
+            }
         }
+
 
         public function play():void {
             frontPlayer.URL = urls[currentMovieIndex];
@@ -54,6 +62,30 @@ package app.movPlayer {
             reattachBeforeEndEvent(bp);
             DisplayObject(bp).alpha = 0;
             addChild(DisplayObject(bp));
+            firstMoviewPlayed = true;
+        }
+
+        private function frontPlayerAppearing(e:Event):void {
+            var player:IMoviePlayer = IMoviePlayer(e.target);
+            player.removeEventListener(MovieEvent.APPEARÏNG, frontPlayerAppearing);
+            backPlayer.pause();
+            if (urlsBuffer.length == 0) {
+                return;
+            } else {
+                backPlayer.addEventListener(MovieEvent.APPEARÏNG, frontPlayerAppearing);
+                urls = urlsBuffer;
+                currentMovieIndex = 0;
+                firstMoviewPlayed = false;
+                urlsBuffer = new Vector.<String>();
+                player.dispatchEvent(new Event(MovieEvent.BEFORE_END));
+            }
+        }
+
+        /**
+         * ２つのプレイヤーを切り替えしている最中かどうかを取得します
+         */
+        public function switching():Boolean {
+            return (DisplayObject(frontPlayer).alpha < 1 || DisplayObject(backPlayer).alpha < 1);
         }
 
         /**
