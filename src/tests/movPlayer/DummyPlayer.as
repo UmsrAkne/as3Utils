@@ -53,7 +53,7 @@ package tests.movPlayer {
         }
 
         public function pause():void {
-            throw new Error("Method not implemented.");
+            playing = false;
         }
 
         public function set URL(value:String):void {
