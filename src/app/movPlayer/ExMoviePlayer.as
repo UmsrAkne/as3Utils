@@ -24,6 +24,7 @@ package app.movPlayer {
             netStream = new NetStream(nc);
             netStream.client = {onMetaData: function(videoInfo:Object):void {
                 duration = videoInfo.duration;
+                dispatchEvent(new Event(MovieEvent.PLAY_START));
             }};
 
             video.attachNetStream(netStream);
