@@ -93,5 +93,17 @@ package app.movPlayer {
                 }
             }
         }
+
+        public override function set alpha(value:Number):void {
+            var currentAlpha:Number = super.alpha;
+            super.alpha = value;
+            if (currentAlpha < 1.0 && currentAlpha + value >= 1.0) {
+                dispatchEvent(new Event(MovieEvent.APPEARÏNG));
+            }
+        }
+
+        public override function get alpha():Number {
+            return super.alpha;
+        }
     }
 }
