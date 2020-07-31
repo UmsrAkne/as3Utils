@@ -90,7 +90,7 @@ package tests.movPlayer {
             var currentAlpha:Number = super.alpha;
             super.alpha = value;
             if (currentAlpha < 1.0 && currentAlpha + value >= 1.0) {
-                dispatchEvent(new Event(MovieEvent.APPEARÏNG));
+                dispatchEvent(new Event(MovieEvent.APPEARING));
             }
         }
 

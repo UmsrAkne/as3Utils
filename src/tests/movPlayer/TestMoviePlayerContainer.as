@@ -93,7 +93,7 @@ package tests.movPlayer {
 
             forwardLoop(98);
             Assert.isTrue(mpc.switching());
-            p2.addEventListener(MovieEvent.APPEARÏNG, appearing);
+            p2.addEventListener(MovieEvent.APPEARING, appearing);
             var appearingFlag:Boolean = false;
             forwardLoop(10);
 

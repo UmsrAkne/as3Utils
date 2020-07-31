@@ -20,7 +20,7 @@ package app.movPlayer {
         public function setURLs(URLs:Vector.<String>):void {
             if (switching()) {
                 urlsBuffer = URLs;
-                frontPlayer.addEventListener(MovieEvent.APPEARÏNG, frontPlayerAppearing);
+                frontPlayer.addEventListener(MovieEvent.APPEARING, frontPlayerAppearing);
             } else {
                 urls = URLs;
                 currentMovieIndex = 0;
@@ -67,12 +67,12 @@ package app.movPlayer {
 
         private function frontPlayerAppearing(e:Event):void {
             var player:IMoviePlayer = IMoviePlayer(e.target);
-            player.removeEventListener(MovieEvent.APPEARÏNG, frontPlayerAppearing);
+            player.removeEventListener(MovieEvent.APPEARING, frontPlayerAppearing);
             backPlayer.pause();
             if (urlsBuffer.length == 0) {
                 return;
             } else {
-                backPlayer.addEventListener(MovieEvent.APPEARÏNG, frontPlayerAppearing);
+                backPlayer.addEventListener(MovieEvent.APPEARING, frontPlayerAppearing);
                 urls = urlsBuffer;
                 currentMovieIndex = 0;
                 firstMoviewPlayed = false;
