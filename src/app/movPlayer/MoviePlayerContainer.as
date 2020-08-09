@@ -67,7 +67,14 @@ package app.movPlayer {
 
         private function frontPlayerAppearing(e:Event):void {
             var player:IMoviePlayer = IMoviePlayer(e.target);
-            player.removeEventListener(MovieEvent.APPEARING, frontPlayerAppearing);
+
+            for (var i:int = 0; i < 5; i++) {
+                if (!player.hasEventListener(MovieEvent.APPEARING)) {
+                    break;
+                }
+                player.removeEventListener(MovieEvent.APPEARING, frontPlayerAppearing);
+            }
+
             backPlayer.pause();
             if (urlsBuffer.length == 0) {
                 return;
