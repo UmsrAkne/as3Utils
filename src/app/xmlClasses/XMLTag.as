@@ -11,5 +11,9 @@ package app.xmlClasses {
         public function get Name():String {
             return String(xml.name());
         }
+
+        public function get HasAttribute():Boolean {
+            return (XMLList(this.xml.attributes()).length() > 0)
+        }
     }
 }
