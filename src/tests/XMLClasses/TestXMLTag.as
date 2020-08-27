@@ -1,12 +1,12 @@
 package tests.XMLClasses {
 
-    import flash.xml.XMLTag;
     import app.xmlClasses.XMLTag;
     import tests.Assert;
 
     public class TestXMLTag {
         public function TestXMLTag() {
             test();
+            getAtteributesTest();
         }
 
         private function test():void {
@@ -21,6 +21,29 @@ package tests.XMLClasses {
             Assert.areEqual(xmlTag2.getChildTags("notExistTag").length, 0);
 
             Assert.areEqual(xmlTag2.getChildTags("singleTag")[0].HasAttribute, true);
+        }
+
+        private function getAtteributesTest():void {
+            var xmlString:String = "<root>\n";
+
+            xmlString += "<r>";
+            xmlString += "<singleTag1 attA=\"aa\" attB=\"bb\" /> \n";
+            xmlString += "<singleTag1 attA=\"cc\" attB=\"dd\" /> \n";
+            xmlString += "</r>";
+
+            xmlString += "<r>";
+            xmlString += "<singleTag1 attA=\"aa\" attB=\"bb\" /> \n";
+            xmlString += "<singleTag1 attA=\"cc\" attB=\"dd\" /> \n";
+            xmlString += "</r>";
+
+            xmlString += "</root>";
+
+            var xmlTag:XMLTag = new XMLTag(new XML(xmlString));
+            var rTag:XMLTag = xmlTag.getChildTags("r")[0];
+            var singleTag:XMLTag = rTag.getChildTags("singleTag1")[0];
+
+            Assert.areEqual(singleTag.getAttribute("attA").Name, "attA");
+            Assert.areEqual(singleTag.getAttribute("attA").Content, "aa");
         }
     }
 }

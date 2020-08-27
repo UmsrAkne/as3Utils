@@ -26,5 +26,13 @@ package app.xmlClasses {
 
             return tags;
         }
+
+        public function getAttribute(attName:String):XMLAttribute {
+            if (xml["@" + attName].toString() == "") {
+                return null;
+            }
+
+            return new XMLAttribute(xml["@" + attName]);
+        }
     }
 }
