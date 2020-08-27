@@ -15,5 +15,16 @@ package app.xmlClasses {
         public function get HasAttribute():Boolean {
             return (XMLList(this.xml.attributes()).length() > 0)
         }
+
+        public function getChildTags(tag:String):Vector.<XMLTag> {
+            var tags:Vector.<XMLTag> = new Vector.<XMLTag>();
+            var xmlList:XMLList = xml[tag];
+
+            for each (var x:XML in xmlList) {
+                tags.push(new XMLTag(x));
+            }
+
+            return tags;
+        }
     }
 }

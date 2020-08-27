@@ -9,6 +9,7 @@ package {
     import tests.movPlayer.TestMoviePlayerContainer;
     import tests.XMLClasses.TestXMLWrapper;
     import tests.XMLClasses.TestXMLAttribute;
+    import tests.XMLClasses.TestXMLTag;
 
     public class Tester extends Sprite {
         public function Tester() {
@@ -18,6 +19,7 @@ package {
             new TestMoviePlayerContainer();
             new TestXMLWrapper();
             new TestXMLAttribute();
+            new TestXMLTag();
             trace("[Tester]" + " " + Assert.TestCounter + " 回のテストを完了しました");
         }
     }
