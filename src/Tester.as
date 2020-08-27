@@ -7,7 +7,6 @@ package {
     import tests.TestTextWriter;
     import tests.movPlayer.TestExMoviePlayer;
     import tests.movPlayer.TestMoviePlayerContainer;
-    import tests.XMLClasses.TestXMLWrapper;
     import tests.XMLClasses.TestXMLAttribute;
     import tests.XMLClasses.TestXMLTag;
 
@@ -17,7 +16,6 @@ package {
             new TestTextWriter();
             new TestExMoviePlayer();
             new TestMoviePlayerContainer();
-            new TestXMLWrapper();
             new TestXMLAttribute();
             new TestXMLTag();
             trace("[Tester]" + " " + Assert.TestCounter + " 回のテストを完了しました");
