@@ -23,8 +23,6 @@ package tests.XMLClasses {
 
 
             var wrapper:XMLWrapper = new XMLWrapper(new XML(xmlString));
-
-            trace(wrapper.getTags("tag1"));
         }
     }
 }

@@ -44,6 +44,10 @@ package tests.XMLClasses {
 
             Assert.areEqual(singleTag.getAttribute("attA").Name, "attA");
             Assert.areEqual(singleTag.getAttribute("attA").Content, "aa");
+            Assert.areEqual(singleTag.getAttribute("notExistAttribute"), null);
+
+            Assert.areEqual(singleTag.getAttributes()[0].Content, "aa");
+            Assert.areEqual(singleTag.getAttributes()[1].Content, "bb");
         }
     }
 }

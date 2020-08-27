@@ -32,7 +32,18 @@ package app.xmlClasses {
                 return null;
             }
 
-            return new XMLAttribute(xml["@" + attName]);
+            return new XMLAttribute(xml["@" + attName][0]);
+        }
+
+        public function getAttributes():Vector.<XMLAttribute> {
+            var attributes:Vector.<XMLAttribute> = new Vector.<XMLAttribute>();
+            var xmlList:XMLList = xml.attributes();
+
+            for each (var x:XML in xmlList) {
+                attributes.push(new XMLAttribute(x));
+            }
+
+            return attributes;
         }
     }
 }

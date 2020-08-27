@@ -2,21 +2,21 @@ package app.xmlClasses {
 
     public class XMLAttribute {
 
-        private var xmlList:XMLList;
+        private var xml:XML;
 
-        public function XMLAttribute(xmlList:XMLList) {
-            if (xmlList.nodeKind() != "attribute") {
+        public function XMLAttribute(xml:XML) {
+            if (xml.nodeKind() != "attribute") {
                 throw new ArgumentError("入力されたXMLはAttributeではありません");
             }
-            this.xmlList = xmlList;
+            this.xml = xml;
         }
 
         public function get Name():String {
-            return String(xmlList.name());
+            return String(xml.name());
         }
 
         public function get Content():String {
-            return xmlList.valueOf();
+            return xml.valueOf();
         }
     }
 }
