@@ -13,6 +13,10 @@ package tests.XMLClasses {
             var xmlatt:XMLAttribute = new XMLAttribute(xml["@attA"][0]);
             Assert.areEqual(xmlatt.Name, "attA");
             Assert.areEqual(xmlatt.Content, "a");
+
+            xmlatt.Content = "changed";
+            Assert.areEqual(xmlatt.Name, "attA");
+            Assert.areEqual(xmlatt.Content, "changed");
         }
     }
 }
