@@ -45,5 +45,9 @@ package app.xmlClasses {
 
             return attributes;
         }
+
+        public function setAttribute(attName:String, attribute:String):void {
+            xml["@" + attName][0] = attribute;
+        }
     }
 }

@@ -48,6 +48,13 @@ package tests.XMLClasses {
 
             Assert.areEqual(singleTag.getAttributes()[0].Content, "aa");
             Assert.areEqual(singleTag.getAttributes()[1].Content, "bb");
+
+            // タグの中の属性の一つを指定して書き換え
+            singleTag.setAttribute("attA", "ee");
+            Assert.areEqual(singleTag.getAttribute("attA").Content, "ee");
+
+            singleTag.setAttribute("attC", "gg");
+            Assert.areEqual(singleTag.getAttribute("attC").Content, "gg");
         }
     }
 }
